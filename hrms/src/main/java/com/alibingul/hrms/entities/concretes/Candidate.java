@@ -3,9 +3,11 @@ package com.alibingul.hrms.entities.concretes;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
+@PrimaryKeyJoinColumn(name = "id", referencedColumnName = "id")
 @Table(name="candidates")
 public class Candidate extends User{
 	
@@ -24,6 +26,7 @@ public class Candidate extends User{
 	
 	@Column(name="birth_year")
 	private int birthYear;
+	
 
 	public Candidate() {
 		super();

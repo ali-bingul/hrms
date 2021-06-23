@@ -1,13 +1,13 @@
 package com.alibingul.hrms.business.concretes;
 
 import java.util.List;
+
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibingul.hrms.business.abstracts.CandidateService;
-import com.alibingul.hrms.core.adapter.CheckMernisService;
 import com.alibingul.hrms.core.utilities.results.DataResult;
 import com.alibingul.hrms.core.utilities.results.ErrorResult;
 import com.alibingul.hrms.core.utilities.results.Result;
@@ -15,6 +15,7 @@ import com.alibingul.hrms.core.utilities.results.SuccessDataResult;
 import com.alibingul.hrms.core.utilities.results.SuccessResult;
 import com.alibingul.hrms.dataAccess.abstracts.CandidateDao;
 import com.alibingul.hrms.entities.concretes.Candidate;
+import com.alibingul.hrms.entities.dtos.CandidateDto;
 
 @Service
 public class CandidateManager implements CandidateService{
@@ -35,12 +36,12 @@ public class CandidateManager implements CandidateService{
 
 	@Override
 	public DataResult<Candidate> getByEmail(String email) {
-		return new SuccessDataResult<Candidate>(this.candidateDao.findByEmail(email));
+		return new SuccessDataResult<Candidate>(this.candidateDao.getByEmail(email));
 	}
 
 	@Override
 	public DataResult<Candidate> getByIdentityNumber(String identityNumber) {
-		return new SuccessDataResult<Candidate>(this.candidateDao.findByIdentityNumber(identityNumber));
+		return new SuccessDataResult<Candidate>(this.candidateDao.getByIdentityNumber(identityNumber));
 	}
 	
 	private boolean validationForCandidate(Candidate candidate) {
@@ -52,7 +53,7 @@ public class CandidateManager implements CandidateService{
 	}
 	
 	private boolean checkIfEmailExists(String email) {
-		if(this.candidateDao.findByEmail(email) != null) {
+		if(this.candidateDao.getByEmail(email) != null) {
 			return false;
 		}
 		return true;
@@ -76,5 +77,21 @@ public class CandidateManager implements CandidateService{
 		}
 		this.candidateDao.save(candidate);
 		return new SuccessResult("Candidate successfully added.");
+	}
+
+	@Override
+	public DataResult<Candidate> getById(int id) {
+		return new SuccessDataResult<Candidate>(this.candidateDao.getById(id));
+	}
+
+	@Override
+	public DataResult<Candidate> getCandidateCv(int candidateId) {
+		return null;
+	}
+
+	@Override
+	public DataResult<List<CandidateDto>> getDto() {
+		//return new SuccessDataResult<List<CandidateDto>>(this.candidateDao.getDto());
+		return null;
 	}
 }
