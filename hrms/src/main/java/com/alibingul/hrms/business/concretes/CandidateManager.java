@@ -20,13 +20,12 @@ import com.alibingul.hrms.entities.concretes.Candidate;
 public class CandidateManager implements CandidateService{
 	
 	private CandidateDao candidateDao;
-	private CheckMernisService checkMernisService;
+	
 
 	@Autowired
-	public CandidateManager(CandidateDao candidateDao, CheckMernisService checkMernisService) {
+	public CandidateManager(CandidateDao candidateDao) {
 		super();
 		this.candidateDao = candidateDao;
-		this.checkMernisService = checkMernisService;
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public class CandidateManager implements CandidateService{
 	
 	@Override
 	public Result add(Candidate candidate) {
-		if(checkMernisService.checkIfRealTcNo(candidate)) {
+		/*if(checkMernisService.checkIfRealTcNo(candidate)) {
 			return new ErrorResult("Not a valid person");
 		}
 		else if(!validationForCandidate(candidate)) {
@@ -71,6 +70,11 @@ public class CandidateManager implements CandidateService{
 			return new ErrorResult("This email address already exists.");
 		}
 		this.candidateDao.save(candidate);
-		return new SuccessResult("Candidate succesfully added.");
+		return new SuccessResult("Candidate succesfully added.");*/
+		if(getByEmail(candidate.getEmail()).getData() != null) {
+			return new ErrorResult("This email address already exists.");
+		}
+		this.candidateDao.save(candidate);
+		return new SuccessResult("Candidate successfully added.");
 	}
 }
